@@ -1,0 +1,83 @@
+﻿@model LOC_CityModel
+
+<div class="row">
+    <div class="col-md-12">
+        <h2>@TempData["message"]</h2>
+        &nbsp;
+        <form method="post" asp-controller="LOC_City" asp-action="Save">
+            @Html.HiddenFor(x=>x.CityID)
+            <div class="from-group">
+                <label>Country Name</label>
+                <select class="form-control" asp-for="CountryID" asp-items="@(new SelectList(ViewBag.CountryList,"CountryID","CountryName"))" onchange="(stateChange())">
+                    <option value="">Select Country</option>
+                </select>
+            </div>
+            <div class="from-group">
+                <label>State Name</label>
+                <select class="form-control" asp-for="StateID" asp-items="@(new SelectList(ViewBag.StateList,"StateID","StateName"))">
+                    <option value="">Select State</option>
+                </select>
+            </div>
+            <div class="from-group">
+                <label>City Name</label>
+                <input type="text" class="from-Control" placeholder="Enter City Name" asp-for="CityName" />
+            </div>
+            <div class="from-group">
+                <label>City Code</label>
+                <input type="text" class="from-Control" placeholder="Enter City PinCode" asp-for="PinCode" />
+            </div>
+            @*<div class="from-group">
+                <label>State Name</label>
+                <input type="text" class="from-Control" placeholder="Enter State Name" asp-for="StateName" />
+            </div>*@
+            <div class="from-group">
+                <label>Creation Date</label>
+                <input type="date" class="from-Control" placeholder="Enter Creation Date" asp-for="CreationDate" />
+            </div>
+            <div class="from-group">
+                <label>Modification Date</label>
+                <input type="date" class="from-Control" placeholder="Enter Modification Date" asp-for="ModificationDate" />
+            </div>
+            </hr>
+            <input type="submit" />
+            <button asp-controller="LOC_City" asp-action="Add">Clear</button>
+            <button asp-controller="LOC_City" asp-action="Index">Back to CityList</button>
+        </form>
+    </div>
+
+</div>
+
+<script>
+    function stateChange()
+    {
+        var CountryID = $("#CountryID").val();
+
+        if(CountryID !== "")
+        {
+            $("#StateID").empty();
+            $("#StateID").append($("<option></option>").val("").html("Select State"));
+
+            $.ajax(
+                {
+                    type: "POST",
+                    contentType:"application/json; charset=utf-8",
+                    url: "@Url.Action("DropDownByState","LOC_City")" + "?&CountryID=" + CountryID,
+                    data:{},
+                    dataType: "json",
+                    success : function (Result){
+                        $.each(Result,
+                            function (key,value){
+                                $("#StateID").append($("<option></option>").val(value.stateID).html(value.stateName));
+                            });
+                    },
+                    error: function(r){
+                        alert("Error while loading combobox.");
+                    }
+                });
+        }else {
+            $("#StateID").empty();
+            $("#StateID").append($("<option></option>").val("").html("Select State"));  
+
+        }
+    }
+</script>

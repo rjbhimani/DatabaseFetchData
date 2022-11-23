@@ -1,0 +1,29 @@
+﻿@model LOC_MST_ContactCategoryModel
+
+<div class="row">
+    <div class="col-md-12">
+        <h2>@TempData["message"]</h2>
+        &nbsp;
+        <form method="post" asp-controller="LOC_MST_ContactCategory" asp-action="Save">
+            @Html.HiddenFor(x=>x.ContactCategoryID)
+
+            <div class="from-group">
+                <label>ContactCategory Name</label>
+                <input type="text" class="from-Control" placeholder="Enter ContactCategory Name" asp-for="ContactCategoryName" />
+            </div>
+            <div class="from-group">
+                <label>Creation Date</label>
+                <input type="date" class="from-Control" placeholder="Enter Creation Date" asp-for="CreationDate" />
+            </div>
+            <div class="from-group">
+                <label>Modification Date</label>
+                <input type="date" class="from-Control" placeholder="Enter Modification Date" asp-for="Modification" />
+            </div>
+            </hr>
+            <input type="submit" />
+            <button asp-controller="LOC_MST_ContactCategory" asp-action="Add">Clear</button>
+            <button asp-controller="LOC_MST_ContactCategory" asp-action="Index">Back to ContactCategoryList</button>
+        </form>
+    </div>
+
+</div>

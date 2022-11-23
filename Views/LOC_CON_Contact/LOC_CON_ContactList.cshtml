@@ -1,0 +1,91 @@
+﻿@{
+    ViewData["Title"] = "State List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using System.Data
+@model DataTable
+
+<div class="row">
+    <div class="col col-md-10">
+        <h1>Contact List</h1>
+    </div>
+    <div class="col col-md-2">
+        <a class="btn btn-success" asp-controller="LOC_CON_Contact" asp-action="Add">ADD LIST</a>
+    </div>
+</div>
+<hr />
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col" colspan="2" class="text-center">Action</th>
+            @*<th scope="col">Contact ID        </th>*@
+            <th scope="col">ContactCategory Name      </th>
+            <th scope="col">Contact Name      </th>
+            <th scope="col">Country Name     </th>
+            <th scope="col">State Name     </th>
+            <th scope="col">City Name    </th>
+            <th scope="col"> Address    </th>
+            <th scope="col">PinCode </th>
+            <th scope="col">Mobile </th>
+            <th scope="col">AlternetContact </th>
+            <th scope="col"> Email</th>
+            <th scope="col"> BirthDate</th>
+            <th scope="col"> LinkedIn</th>
+            <th scope="col"> Twitter</th>
+            <th scope="col"> Insta</th>
+            <th scope="col">CreationDate </th>
+            <th scope="col">ModificationDate </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (DataRow dr in Model.Rows)
+
+        {
+            <tr>
+                <td scope="col">
+                    <form method="post" asp-controller="LOC_CON_Contact" asp-action="Delete">
+                        <input type="hidden" name="ContactID" value="@Convert.ToInt32(dr["ContactID"])" />
+                        <button type="submit" class="btn btn-danger" onclick="return confirm ('Are you sure you want to delete : @dr["ContactName"]')">Delete</button>
+                    </form>
+                </td>
+                <td scope="col">
+                    <form method="post" asp-controller="LOC_CON_Contact" asp-action="Add">
+                        <input type="hidden" name="ContactID" value="@Convert.ToInt32(dr["ContactID"])" />
+                        <button type="submit" class="btn btn-success">Edit</button>
+                    </form>
+                </td>
+                @*<th scope="col">@dr["ContactID"]</th>*@
+                <td scope="col"> @dr["ContactCategoryName"]   </td>
+                <td scope="col"> @dr["ContactName"]   </td>
+                <td scope="col"> @dr["CountryName"]   </td>
+                <td scope="col"> @dr["StateName"]   </td>
+                <td scope="col"> @dr["CityName"]   </td>
+                <td scope="col"> @dr["Address"]   </td>
+                <td scope="col"> @dr["PinCode"]   </td>
+                <td scope="col"> @dr["Mobile"]   </td>
+                <td scope="col"> @dr["AlternetContact"]   </td>
+                <td scope="col"> @dr["Email"]   </td>
+                <td scope="col"> @dr["BirthDate"]   </td>
+                <td scope="col"> @dr["LinkedIn"]   </td>
+                <td scope="col"> @dr["Twitter"]   </td>
+                <td scope="col"> @dr["Insta"]   </td>
+                <td scope="col"> @Convert.ToDateTime(dr["CreationDate"]).ToString("dd-MM-yyyy")</td>
+                <td scope="col"> @Convert.ToDateTime(dr["ModificationDate"]).ToString("dd-MM-yyyy")</td>
+                
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+

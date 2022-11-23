@@ -1,0 +1,71 @@
+﻿@{
+    ViewData["Title"] = "State List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using System.Data
+@model DataTable
+
+<div class="row">
+    <div class="col col-md-10">
+        <h1>City List</h1>
+    </div>
+    <div class="col col-md-2">
+        <a class="btn btn-success" asp-controller="LOC_City" asp-action="Add">ADD LIST</a>
+    </div>
+</div>
+<hr />
+
+<table class="table">
+    <thead>
+        <tr>
+            @*<th scope="col">City ID        </th>*@
+            <th scope="col">City Name      </th>
+            <th scope="col">PinCode      </th>
+            <th scope="col">StateName      </th>
+            <th scope="col">CountryName      </th>
+            <th scope="col">Creation Date     </th>
+            <th scope="col">Modification Date    </th>
+            <th scope="col" colspan="2" class="text-center">Action</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (DataRow dr in Model.Rows)
+
+        {
+            <tr>
+
+                @*<th scope="col">@dr["CityID"]</th>*@
+                <td scope="col"> @dr["CityName"]                                            </td>
+                <td scope="col"> @dr["PinCode"]                                            </td>
+                <td scope="col"> @dr["StateName"]                                            </td>
+                <td scope="col"> @dr["CountryName"]                                            </td>
+                <td scope="col"> @Convert.ToDateTime(dr["CreationDate"]).ToString("dd-MM-yyyy")</td>
+                <td scope="col"> @Convert.ToDateTime(dr["ModificationDate"]).ToString("dd-MM-yyyy")</td>
+                <td scope="col">
+                    <form method="post" asp-controller="LOC_City" asp-action="Delete">
+                        <input type="hidden" name="CityID" value="@Convert.ToInt32(dr["CityID"])" />
+                        <button type="submit" class="btn btn-danger" onclick="return confirm ('Are you sure you want to delete : @dr["CityName"]')">Delete</button>
+                    </form>
+                </td>
+                <td scope="col">
+                    <form method="post" asp-controller="LOC_City" asp-action="Add">
+                        <input type="hidden" name="CityID" value="@Convert.ToInt32(dr["CityID"])" />
+                        <button type="submit" class="btn btn-success">Edit</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
