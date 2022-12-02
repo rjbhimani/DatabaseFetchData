@@ -10,13 +10,18 @@
     <div class="col col-md-10">
         <h1>City List</h1>
     </div>
+    <div class="pull-right">
+        <div id="sample_1_filter" class="dataTables_filter">
+            <label>Search Any&nbsp;<input type="text" class="form-control input-sm input-small input-inline" placeholder="" id="sample_1" aria-controls="sample_1" /></label>
+        </div>
+    </div>
     <div class="col col-md-2">
         <a class="btn btn-success" asp-controller="LOC_City" asp-action="Add">ADD LIST</a>
     </div>
 </div>
 <hr />
 
-<table class="table">
+<table class="table" id="sample_1">
     <thead>
         <tr>
             @*<th scope="col">City ID        </th>*@
@@ -30,7 +35,7 @@
 
         </tr>
     </thead>
-    <tbody>
+    <tbody id="sample_2">
         @foreach (DataRow dr in Model.Rows)
 
         {
@@ -59,6 +64,20 @@
         }
     </tbody>
 </table>
+
+@section Scripts
+    {
+    <script>
+        $(document).ready(function () {
+            $("#sample_1").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $("#sample_2 tr").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+    </script>
+}
 
 
 

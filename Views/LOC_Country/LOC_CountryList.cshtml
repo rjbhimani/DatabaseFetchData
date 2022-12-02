@@ -12,9 +12,9 @@
         <h1>Country List</h1>
     </div>
     <div class="pull-right">
-    <div id="sample_1_filter" class="dataTables_filter">
-        <label>Search Any&nbsp;<input type="text" class="form-control input-sm input-small input-inline" placeholder="" id="sample_1" aria-controls="sample_1" /></label>
-    </div>
+        <div id="sample_1_filter" class="dataTables_filter">
+            <label>Search Any&nbsp;<input type="text" class="form-control input-sm input-small input-inline" placeholder="" id="sample_1" aria-controls="sample_1" /></label>
+        </div>
     </div>
     <div class="col col-md-2">
         <a class="btn btn-success" asp-controller="LOC_Country" asp-action="Add">ADD LIST</a>
@@ -58,16 +58,16 @@
                 </td>
             </tr>
         }
-    </tbody> 
+    </tbody>
 </table>
 
 @section Scripts
-{
+    {
     <script>
-        $(document).ready(function(){
-            $("#sample_1").on("keyup",function(){
+        $(document).ready(function () {
+            $("#sample_1").on("keyup", function () {
                 var value = $(this).val().toLowerCase();
-                $("#sample_2 tr").filter(function(){
+                $("#sample_2 tr").filter(function () {
                     $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
                 });
             });
