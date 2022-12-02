@@ -49,7 +49,7 @@ namespace DatabaseFetchData.Controllers
         #region Add
         public IActionResult Add(int? ContactCategoryID)
         {
-            if(ContactCategoryID != null)
+            if (ContactCategoryID != null)
             {
                 String str = this.Configuration.GetConnectionString("MyConnectionStrings");
                 SqlConnection objCommand = new SqlConnection(str);
@@ -64,7 +64,7 @@ namespace DatabaseFetchData.Controllers
 
                 LOC_MST_ContactCategoryModel modelLOC_MST_ContactCategory = new LOC_MST_ContactCategoryModel();
 
-                foreach(DataRow dr in dt.Rows)
+                foreach (DataRow dr in dt.Rows)
                 {
                     modelLOC_MST_ContactCategory.ContactCategoryID = Convert.ToInt32(dr["ContactCategoryID"]);
                     modelLOC_MST_ContactCategory.ContactCategoryName = dr["ContactCategoryName"].ToString();
@@ -72,7 +72,7 @@ namespace DatabaseFetchData.Controllers
                     modelLOC_MST_ContactCategory.Modification = Convert.ToDateTime(dr["Modification"]);
 
                 }
-                return View("LOC_MST_ContactCategoryAddEdit",modelLOC_MST_ContactCategory);
+                return View("LOC_MST_ContactCategoryAddEdit", modelLOC_MST_ContactCategory);
 
             }
             return View("LOC_MST_ContactCategoryAddEdit");
@@ -82,39 +82,42 @@ namespace DatabaseFetchData.Controllers
         #region Save
         public IActionResult Save(LOC_MST_ContactCategoryModel modelLOC_MST_ContactCategory)
         {
-            String str = this.Configuration.GetConnectionString("MyConnectionStrings");
-            SqlConnection objCommand = new SqlConnection(str);
-            objCommand.Open();
-            SqlCommand cmd = objCommand.CreateCommand();
-            cmd.CommandType = System.Data.CommandType.StoredProcedure;
-
-            if(modelLOC_MST_ContactCategory.ContactCategoryID == 0)
+            if (ModelState.IsValid)
             {
-                cmd.CommandText = "PR_LOC_MST_ContactCategory_Insert";
-                cmd.Parameters.Add("@CreationDate", SqlDbType.Date).Value = modelLOC_MST_ContactCategory.CreationDate;
+                String str = this.Configuration.GetConnectionString("MyConnectionStrings");
+                SqlConnection objCommand = new SqlConnection(str);
+                objCommand.Open();
+                SqlCommand cmd = objCommand.CreateCommand();
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
-            }
-            else
-            {
-                cmd.CommandText = "PR_LOC_MST_ContactCategory_UpDateByPK";
-                cmd.Parameters.Add("@ContactCategoryID", SqlDbType.Int).Value = modelLOC_MST_ContactCategory.ContactCategoryID;
-
-            }
-            cmd.Parameters.Add("@ContactCategoryName", SqlDbType.VarChar).Value = modelLOC_MST_ContactCategory.ContactCategoryName;
-            cmd.Parameters.Add("@Modification", SqlDbType.Date).Value = modelLOC_MST_ContactCategory.Modification;
-            
-            if(Convert.ToBoolean(cmd.ExecuteNonQuery()))
-            {
                 if (modelLOC_MST_ContactCategory.ContactCategoryID == 0)
                 {
-                    TempData["message"] = "Record Inserted Successsfully";
+                    cmd.CommandText = "PR_LOC_MST_ContactCategory_Insert";
+                    cmd.Parameters.Add("@CreationDate", SqlDbType.Date).Value = modelLOC_MST_ContactCategory.CreationDate;
+
                 }
                 else
                 {
-                    TempData["message"] = "Record Updated Successsfully";
+                    cmd.CommandText = "PR_LOC_MST_ContactCategory_UpDateByPK";
+                    cmd.Parameters.Add("@ContactCategoryID", SqlDbType.Int).Value = modelLOC_MST_ContactCategory.ContactCategoryID;
+
                 }
+                cmd.Parameters.Add("@ContactCategoryName", SqlDbType.VarChar).Value = modelLOC_MST_ContactCategory.ContactCategoryName;
+                cmd.Parameters.Add("@Modification", SqlDbType.Date).Value = modelLOC_MST_ContactCategory.Modification;
+
+                if (Convert.ToBoolean(cmd.ExecuteNonQuery()))
+                {
+                    if (modelLOC_MST_ContactCategory.ContactCategoryID == 0)
+                    {
+                        TempData["message"] = "Record Inserted Successsfully";
+                    }
+                    else
+                    {
+                        TempData["message"] = "Record Updated Successsfully";
+                    }
+                }
+                objCommand.Close();
             }
-            objCommand.Close();
             return RedirectToAction("Add");
         }
         #endregion

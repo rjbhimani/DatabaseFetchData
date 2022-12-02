@@ -186,49 +186,52 @@ namespace DatabaseFetchData.Controllers
         #region Save
         public IActionResult Save(LOC_CON_ContactModel modelLOC_CON_Contact)
         {
-            String str = this.Configuration.GetConnectionString("MyConnectionStrings");
-            SqlConnection objCommand = new SqlConnection(str);
-            objCommand.Open();
-            SqlCommand cmd = objCommand.CreateCommand();
-            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            if (ModelState.IsValid)
+            {
+                String str = this.Configuration.GetConnectionString("MyConnectionStrings");
+                SqlConnection objCommand = new SqlConnection(str);
+                objCommand.Open();
+                SqlCommand cmd = objCommand.CreateCommand();
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
-            if(modelLOC_CON_Contact.ContactID == null)
-            {
-                cmd.CommandText = "PR_LOC_CON_Contact_Insert";
-                cmd.Parameters.Add("@CreationDate", SqlDbType.Date).Value = modelLOC_CON_Contact.CreationDate;
+                if (modelLOC_CON_Contact.ContactID == null)
+                {
+                    cmd.CommandText = "PR_LOC_CON_Contact_Insert";
+                    cmd.Parameters.Add("@CreationDate", SqlDbType.Date).Value = modelLOC_CON_Contact.CreationDate;
 
-            }
-            else
-            {
-                cmd.CommandText = "PR_LOC_CON_Contact_UpdateByPK";
-                cmd.Parameters.Add("@ContactID", SqlDbType.Int).Value = modelLOC_CON_Contact.ContactID;
-            }
-            cmd.Parameters.Add("@ContactName", SqlDbType.VarChar).Value = modelLOC_CON_Contact.ContactName;
-            cmd.Parameters.Add("@CountryID", SqlDbType.Int).Value = modelLOC_CON_Contact.CountryID;
-            cmd.Parameters.Add("@StateID", SqlDbType.Int).Value = modelLOC_CON_Contact.StateID;
-            cmd.Parameters.Add("@CityID", SqlDbType.Int).Value = modelLOC_CON_Contact.CityID;
-            cmd.Parameters.Add("@ContactCategoryID", SqlDbType.Int).Value = modelLOC_CON_Contact.ContactCategoryID;
-            cmd.Parameters.Add("@Address", SqlDbType.VarChar).Value = modelLOC_CON_Contact.Address;
-            cmd.Parameters.Add("@PinCode", SqlDbType.Int).Value = modelLOC_CON_Contact.PinCode;
-            cmd.Parameters.Add("@Mobile", SqlDbType.Int).Value = modelLOC_CON_Contact.Mobile;
-            cmd.Parameters.Add("@AlternetContact", SqlDbType.Int).Value = modelLOC_CON_Contact.AlternetContact;
-            cmd.Parameters.Add("@Email", SqlDbType.VarChar).Value = modelLOC_CON_Contact.Email;
-            cmd.Parameters.Add("@BirthDate", SqlDbType.Date).Value = modelLOC_CON_Contact.BirthDate;
-            cmd.Parameters.Add("@LinkedIn", SqlDbType.VarChar).Value = modelLOC_CON_Contact.LinkedIn;
-            cmd.Parameters.Add("@Twitter", SqlDbType.VarChar).Value = modelLOC_CON_Contact.Twitter;
-            cmd.Parameters.Add("@Insta", SqlDbType.VarChar).Value = modelLOC_CON_Contact.Insta;
-            cmd.Parameters.Add("@ModificationDate", SqlDbType.DateTime).Value = modelLOC_CON_Contact.ModificationDate;
-            
-            
-            if(Convert.ToBoolean(cmd.ExecuteNonQuery()))
-            {
-                if(modelLOC_CON_Contact.ContactID == null)
-                TempData["message"] = "Record Inserted Successsfully";
+                }
                 else
-                    TempData["message"] = "Record Updated Successsfully";
+                {
+                    cmd.CommandText = "PR_LOC_CON_Contact_UpdateByPK";
+                    cmd.Parameters.Add("@ContactID", SqlDbType.Int).Value = modelLOC_CON_Contact.ContactID;
+                }
+                cmd.Parameters.Add("@ContactName", SqlDbType.VarChar).Value = modelLOC_CON_Contact.ContactName;
+                cmd.Parameters.Add("@CountryID", SqlDbType.Int).Value = modelLOC_CON_Contact.CountryID;
+                cmd.Parameters.Add("@StateID", SqlDbType.Int).Value = modelLOC_CON_Contact.StateID;
+                cmd.Parameters.Add("@CityID", SqlDbType.Int).Value = modelLOC_CON_Contact.CityID;
+                cmd.Parameters.Add("@ContactCategoryID", SqlDbType.Int).Value = modelLOC_CON_Contact.ContactCategoryID;
+                cmd.Parameters.Add("@Address", SqlDbType.VarChar).Value = modelLOC_CON_Contact.Address;
+                cmd.Parameters.Add("@PinCode", SqlDbType.Int).Value = modelLOC_CON_Contact.PinCode;
+                cmd.Parameters.Add("@Mobile", SqlDbType.Int).Value = modelLOC_CON_Contact.Mobile;
+                cmd.Parameters.Add("@AlternetContact", SqlDbType.Int).Value = modelLOC_CON_Contact.AlternetContact;
+                cmd.Parameters.Add("@Email", SqlDbType.VarChar).Value = modelLOC_CON_Contact.Email;
+                cmd.Parameters.Add("@BirthDate", SqlDbType.Date).Value = modelLOC_CON_Contact.BirthDate;
+                cmd.Parameters.Add("@LinkedIn", SqlDbType.VarChar).Value = modelLOC_CON_Contact.LinkedIn;
+                cmd.Parameters.Add("@Twitter", SqlDbType.VarChar).Value = modelLOC_CON_Contact.Twitter;
+                cmd.Parameters.Add("@Insta", SqlDbType.VarChar).Value = modelLOC_CON_Contact.Insta;
+                cmd.Parameters.Add("@ModificationDate", SqlDbType.DateTime).Value = modelLOC_CON_Contact.ModificationDate;
 
+
+                if (Convert.ToBoolean(cmd.ExecuteNonQuery()))
+                {
+                    if (modelLOC_CON_Contact.ContactID == null)
+                        TempData["message"] = "Record Inserted Successsfully";
+                    else
+                        TempData["message"] = "Record Updated Successsfully";
+
+                }
+                objCommand.Close();
             }
-            objCommand.Close();
             return RedirectToAction("Add");
         }
         #endregion

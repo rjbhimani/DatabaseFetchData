@@ -69,6 +69,8 @@
                     <select asp-for="CountryID" asp-items="@(new SelectList(ViewBag.CountryList,"CountryID","CountryName"))" class="form-control">
                         <option value="">Select Country</option>
                     </select>
+                    <span asp-validation-for="CountryID" class="text-danger"></span>
+
                 </div>
                 <div class="col-md-1">
                 </div>
@@ -78,6 +80,7 @@
                 </div>
                 <div class="col-md-3">
                     <input type="text" placeholder="Enter State Name" asp-for="StateName" class="form-control" />
+                    <span asp-validation-for="StateName" class="text-danger"></span>
                 </div>
             </div>
             <br />
@@ -89,23 +92,29 @@
                 </div>
                 <div class="col-md-3">
                     <input type="text" placeholder="Enter State Code" asp-for="StateCode" class="form-control" />
+                    <span asp-validation-for="StateCode" class="text-danger"></span>
+
                 </div>
                 <div class="col-md-1">
                 </div>
                 <div class="col-md-2">
+                    <span style="color: #ff0000">*</span>
                     Creation Date :-
                 </div>
                 <div class="col-md-3">
                     <input type="date" placeholder="Enter CreationDate Date" asp-for="CreationDate" class="form-control" />
+                    <span asp-validation-for="CreationDate" class="text-danger"></span>
                 </div>
             </div>
             <br />
             <div class="row">
                 <div class="col-md-2">
+                    <span style="color: #ff0000">*</span>
                     Modification Date:-
                 </div>
                 <div class="col-md-3">
                     <input type="date" placeholder="Enter Modification Date" asp-for="ModificationDate" class="form-control" />
+                    <span asp-validation-for="ModificationDate" class="text-danger"></span>
                 </div>
                 <div class="col-md-1">
                 </div>
@@ -134,3 +143,9 @@
 
     </div>
 </section><!-- End Intro Single-->
+@section Scripts {
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

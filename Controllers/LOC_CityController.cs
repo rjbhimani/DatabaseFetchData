@@ -56,7 +56,7 @@ namespace DatabaseFetchData.Controllers
         #region AddEdit
         public IActionResult Add(int? CityID)
         {
-           
+
 
             #region DropDown => Country
             String str2 = this.Configuration.GetConnectionString("MyConnectionStrings");
@@ -129,7 +129,7 @@ namespace DatabaseFetchData.Controllers
                     modelLOC_City.PinCode = Convert.ToInt32(dr["PinCode"]);
                     modelLOC_City.ModificationDate = Convert.ToDateTime(dr["ModificationDate"]);
                 }
-                return View("LOC_CityAddEdit",modelLOC_City);
+                return View("LOC_CityAddEdit", modelLOC_City);
 
             }
             #endregion
@@ -141,44 +141,47 @@ namespace DatabaseFetchData.Controllers
         #region Save
         public IActionResult Save(LOC_CityModel modelLOC_City)
         {
-            String str = this.Configuration.GetConnectionString("MyConnectionStrings");
-            SqlConnection objCommand = new SqlConnection(str);
-            objCommand.Open();
-            SqlCommand cmd = objCommand.CreateCommand();
-            cmd.CommandType = System.Data.CommandType.StoredProcedure;
-
-            if(modelLOC_City.CityID == null)
+            if (ModelState.IsValid)
             {
-                cmd.CommandText = "PR_LOC_City_Insert";
-                cmd.Parameters.Add("@CreationDate", SqlDbType.Date).Value = modelLOC_City.CreationDate;
+                String str = this.Configuration.GetConnectionString("MyConnectionStrings");
+                SqlConnection objCommand = new SqlConnection(str);
+                objCommand.Open();
+                SqlCommand cmd = objCommand.CreateCommand();
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
-
-            }
-            else
-            {
-                cmd.CommandText = "PR_LOC_City_UpDateByPK";
-                cmd.Parameters.Add("@CityID", SqlDbType.Int).Value = modelLOC_City.CityID;
-
-
-            }
-            cmd.Parameters.Add("@CityName", SqlDbType.VarChar).Value = modelLOC_City.CityName;
-            cmd.Parameters.Add("@PinCode", SqlDbType.Int).Value = modelLOC_City.PinCode;
-            cmd.Parameters.Add("@CountryID", SqlDbType.Int).Value = modelLOC_City.CountryID;
-            cmd.Parameters.Add("@StateID", SqlDbType.Int).Value = modelLOC_City.StateID;
-            cmd.Parameters.Add("@ModificationDate", SqlDbType.Date).Value = modelLOC_City.ModificationDate;
-            
-            if(Convert.ToBoolean(cmd.ExecuteNonQuery()))
-            {
                 if (modelLOC_City.CityID == null)
                 {
-                    TempData["message"] = "Record Inserted Successsfully";
+                    cmd.CommandText = "PR_LOC_City_Insert";
+                    cmd.Parameters.Add("@CreationDate", SqlDbType.Date).Value = modelLOC_City.CreationDate;
+
+
                 }
                 else
                 {
-                    TempData["message"] = "Record Updated Successsfully";
+                    cmd.CommandText = "PR_LOC_City_UpDateByPK";
+                    cmd.Parameters.Add("@CityID", SqlDbType.Int).Value = modelLOC_City.CityID;
+
+
                 }
+                cmd.Parameters.Add("@CityName", SqlDbType.VarChar).Value = modelLOC_City.CityName;
+                cmd.Parameters.Add("@PinCode", SqlDbType.Int).Value = modelLOC_City.PinCode;
+                cmd.Parameters.Add("@CountryID", SqlDbType.Int).Value = modelLOC_City.CountryID;
+                cmd.Parameters.Add("@StateID", SqlDbType.Int).Value = modelLOC_City.StateID;
+                cmd.Parameters.Add("@ModificationDate", SqlDbType.Date).Value = modelLOC_City.ModificationDate;
+
+                if (Convert.ToBoolean(cmd.ExecuteNonQuery()))
+                {
+                    if (modelLOC_City.CityID == null)
+                    {
+                        TempData["message"] = "Record Inserted Successsfully";
+                    }
+                    else
+                    {
+                        TempData["message"] = "Record Updated Successsfully";
+                    }
+                }
+                objCommand.Close();
             }
-            objCommand.Close();
             return RedirectToAction("Add");
         }
         #endregion
