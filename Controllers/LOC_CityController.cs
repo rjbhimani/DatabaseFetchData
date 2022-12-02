@@ -2,6 +2,7 @@
 using System.Data.SqlClient;
 using System.Data;
 using DatabaseFetchData.Models;
+using DatabaseFetchData.Dal;
 
 namespace DatabaseFetchData.Controllers
 {
@@ -20,15 +21,20 @@ namespace DatabaseFetchData.Controllers
         {
 
             String str = this.Configuration.GetConnectionString("MyConnectionStrings");
-            SqlConnection conn = new SqlConnection(str);
+            LOC_Dal dalLOC = new LOC_Dal();
+            DataTable dt = dalLOC.dbo_PR_LOC_City_SelectAll(str);
+            return View("LOC_CityList", dt);
+
+            /*SqlConnection conn = new SqlConnection(str);
             conn.Open();
             SqlCommand cmd = conn.CreateCommand();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.CommandText = "PR_LOC_City_SelectAll";
             DataTable dt = new DataTable();
             SqlDataReader sdr = cmd.ExecuteReader();
-            dt.Load(sdr);
-            return View("LOC_CityList", dt);
+            dt.Load(sdr);*/
+
+
         }
         #endregion
 
@@ -127,6 +133,7 @@ namespace DatabaseFetchData.Controllers
 
             }
             #endregion
+
             return View("LOC_CityAddEdit");
         }
         #endregion

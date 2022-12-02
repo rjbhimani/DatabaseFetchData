@@ -2,6 +2,7 @@
 using System.Data.SqlClient;
 using System.Data;
 using DatabaseFetchData.Models;
+using DatabaseFetchData.Dal;
 
 namespace DatabaseFetchData.Controllers
 {
@@ -19,16 +20,19 @@ namespace DatabaseFetchData.Controllers
         public IActionResult Index()
         {
             String str = this.Configuration.GetConnectionString("MyConnectionStrings");
-            SqlConnection conn = new SqlConnection(str);
+            LOC_Dal dalLOC = new LOC_Dal();
+            DataTable dt = dalLOC.dbo_PR_LOC_State_SelectAll(str);
+            return View("LOC_StateList", dt);
+
+            /*SqlConnection conn = new SqlConnection(str);
             conn.Open();
             SqlCommand cmd = conn.CreateCommand();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.CommandText = "PR_LOC_State_SelectAll";
             DataTable dt = new DataTable();
             SqlDataReader sdr = cmd.ExecuteReader();
-            dt.Load(sdr);
-            return View("LOC_StateList", dt);
-            
+            dt.Load(sdr);*/
+
         }
         #endregion
 
