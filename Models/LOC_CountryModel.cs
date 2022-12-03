@@ -16,11 +16,11 @@ namespace DatabaseFetchData.Models
         [DisplayName("Country Code")]
         public string CountryCode { get; set; }
 
-        [Required(ErrorMessage = "Please enter CreationDate")]
-        public DateTime? CreationDate { get; set; }
+        /*[Required(ErrorMessage = "Please enter CreationDate")]*/
+        public DateTime CreationDate { get; set; }
 
-        [Required(ErrorMessage = "Please enter Modification")]
-        public DateTime? Modification { get; set; }
+        /*[Required(ErrorMessage = "Please enter Modification")]*/
+        public DateTime Modification { get; set; }
 
 
     }

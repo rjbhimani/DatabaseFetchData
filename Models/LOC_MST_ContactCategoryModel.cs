@@ -13,11 +13,11 @@ namespace DatabaseFetchData.Models
         [StringLength(10, MinimumLength = 3)]
         public String ContactCategoryName { get; set; }
 
-        [Required(ErrorMessage = "Please enter CreationDate")]
-        public DateTime? CreationDate { get; set; }
+        /*[Required(ErrorMessage = "Please enter CreationDate")]*/
+        public DateTime CreationDate { get; set; }
 
-        [Required(ErrorMessage = "Please enter Modification")]
-        public DateTime? Modification{ get; set; }
+        /*[Required(ErrorMessage = "Please enter Modification")]*/
+        public DateTime Modification{ get; set; }
 
     }
 

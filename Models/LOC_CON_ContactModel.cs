@@ -50,11 +50,11 @@ namespace DatabaseFetchData.Models
 
         public string Insta { get; set; }
 
-        [Required(ErrorMessage = "Please enter CreationDate")]
-        public DateTime? CreationDate { get; set; }
+        /*[Required(ErrorMessage = "Please enter CreationDate")]*/
+        public DateTime CreationDate { get; set; }
 
-        [Required(ErrorMessage = "Please enter ModificationDate")]
-        public DateTime? ModificationDate { get; set; }
+        /*[Required(ErrorMessage = "Please enter ModificationDate")]*/
+        public DateTime ModificationDate { get; set; }
 
     }
 }

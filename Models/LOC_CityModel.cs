@@ -21,11 +21,11 @@ namespace DatabaseFetchData.Models
         [Required(ErrorMessage = "Please enter State")]
         public int StateID { get; set; }
 
-        [Required(ErrorMessage = "Please enter CreationDate")]
-        public DateTime? CreationDate { get; set; }
+        /*[Required(ErrorMessage = "Please enter CreationDate")]*/
+        public DateTime CreationDate { get; set; }
 
-        [Required(ErrorMessage = "Please enter ModificationDate")]
-        public DateTime? ModificationDate { get; set; }
+        /*[Required(ErrorMessage = "Please enter ModificationDate")]*/
+        public DateTime ModificationDate { get; set; }
 
     }
 

@@ -20,11 +20,11 @@ namespace DatabaseFetchData.Models
         [Required(ErrorMessage = "Please enter Country")]
         public int CountryID { get; set; }
 
-        [Required(ErrorMessage = "Please enter CreationDate")]
-        public DateTime? CreationDate { get; set; }
+        /*[Required(ErrorMessage = "Please enter CreationDate")]*/
+        public DateTime CreationDate { get; set; }
 
-        [Required(ErrorMessage = "Please enter ModificationDate")]
-        public DateTime? ModificationDate { get; set; }
+        /*[Required(ErrorMessage = "Please enter ModificationDate")]*/
+        public DateTime ModificationDate { get; set; }
     }
 
     public class LOC_StateDropDownModel
